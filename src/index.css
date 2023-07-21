@@ -5,7 +5,11 @@
   font-family: 'Roboto', sans-serif;
   line-height: 1.5;
   font-weight: 400;
-  background-color: #111111;
+  /* background:
+    linear-gradient(red, transparent),
+    linear-gradient(to top left, lime, transparent),
+    linear-gradient(to top right, blue, transparent);
+  background-blend-mode: screen; */
 
 /* 
   color-scheme: light dark;
@@ -18,11 +22,89 @@
   -moz-osx-font-smoothing: grayscale;
   -webkit-text-size-adjust: 100%;
 }
-body {
-
+html, body {
   margin: 0;
   padding: 0;
+  height: 100%;
 }
+
+body {
+
+    /* background:
+        linear-gradient(red, transparent),
+        linear-gradient(to top left, lime, transparent),
+        linear-gradient(to top right, blue, transparent);
+    background-blend-mode: screen; */
+    background-color: #F0F2F5;
+  
+}
+
+.line-top {
+  display: flex;
+  justify-content: center;
+  border-top: 1px ridge #000;
+  padding: 0.5rem;
+}
+
+.profile-container {
+  display: flex;
+  justify-content: space-around;
+}
+
+.profile-info {
+  padding-left: rem;
+  
+}
+
+.profile-info h2 {
+  
+  margin-bottom: 10px;
+}
+
+.profile-info ul {
+  list-style-type: none;
+  padding: 1;
+}
+
+.profile-info li {
+  font-size: 1.5rem;
+  margin-bottom: 5px;
+}
+
+.profile-info a {
+  color: #1976d2;
+  text-decoration: none;
+}
+
+.profile-info a:hover {
+  text-decoration: underline;
+}
+
+.container{
+  color: rgba(0, 0, 0, 0.87);
+  transition: box-shadow 300ms cubic-bezier(0.4, 0, 0.2, 1) 0ms;
+  display: flex;
+  flex-direction: column;
+  position: relative;
+  min-width: 0px;
+  overflow-wrap: break-word;
+  background-color: rgb(255, 255, 255);
+  background-clip: border-box;
+  border: 0.7px solid rgba(0, 0, 0, 0.125);
+  border-radius: 0.75rem;
+  box-shadow: rgba(0, 0, 0, 0.1) 0rem 0.25rem 0.375rem -0.0625rem, rgba(0, 0, 0, 0.06) 0rem 0.125rem 0.25rem -0.0625rem;
+  overflow: visible;
+  
+  margin-bottom: 1rem;
+}
+
+
+
+
+
+
+
+
 
 
 

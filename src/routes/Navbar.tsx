@@ -35,6 +35,12 @@ const Navbar = ({ token, handleTokenUpdate }: NavbarProps) => {
           </Button>
           {token ? (
             <>
+              <Button color="inherit" component={Link} to="/workout">
+                My Workout
+              </Button>
+              <Button color="inherit" component={Link} to="/chat">
+                Chat
+              </Button>
               <Button color="inherit" component={Link} to="/profile">
                 Profile
               </Button>
