@@ -1,17 +1,19 @@
 import * as React from 'react';
+import CssBaseline from '@mui/material/CssBaseline';
 import Avatar from '@mui/material/Avatar';
 import Button from '@mui/material/Button';
-import CssBaseline from '@mui/material/CssBaseline';
+
 import TextField from '@mui/material/TextField';
 import FormControlLabel from '@mui/material/FormControlLabel';
 import Checkbox from '@mui/material/Checkbox';
 import Link from '@mui/material/Link';
 import Grid from '@mui/material/Grid';
-import Box from '@mui/material/Box';
+
 import LockOutlinedIcon from '@mui/icons-material/LockOutlined';
 import Typography from '@mui/material/Typography';
 import Container from '@mui/material/Container';
 import { createTheme, ThemeProvider } from '@mui/material/styles';
+import Box from '@mui/material/Box';
 
 import { useNavigate } from 'react-router-dom';
 import axios from 'axios';
@@ -37,7 +39,7 @@ const defaultTheme = createTheme();
 type SignUpProps = {
     onTokenUpdate: (newToken: string) => void;
   };
-  
+
 const SignUp: React.FC<SignUpProps> = ({ onTokenUpdate }) => {
 
     const navigate = useNavigate();
@@ -50,7 +52,7 @@ const SignUp: React.FC<SignUpProps> = ({ onTokenUpdate }) => {
           email: data.get('email'),
           password: data.get('password'),
         };
-      
+
         // Send the payload to the registration API endpoint using Axios
         axios.post('http://localhost:8080/api/v1/auth/register', payload, {
           headers: {

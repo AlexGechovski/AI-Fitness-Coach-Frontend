@@ -22,11 +22,11 @@ const Root = () => {
     text: string;
     isUser: boolean;
   }
-  
+
   const addMessage = (message: Message): void => {
     setMessages((prevMessages) => [...prevMessages, message]);
   };
-  
+
 
   const handleTokenUpdate = (newToken: string | null) => {
     if (newToken) {
@@ -36,7 +36,6 @@ const Root = () => {
     }
     setToken(newToken);
   };
-  
 
 
   const router = createBrowserRouter([

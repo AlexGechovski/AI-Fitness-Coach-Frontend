@@ -37,7 +37,6 @@ const Profile = () => {
         }
 
         const tokenUsername = getDecodedAccessToken(token).sub;
-        console.log(tokenUsername); // Display the decoded token object in the console
         setUsername(tokenUsername);
         const url = `http://localhost:8080/api/v1/profile/${tokenUsername}`;
         const response = await fetch(url, {
@@ -58,7 +57,7 @@ const Profile = () => {
   const handleOpenEditModal = () => {
     setEditModalOpen(true);
   };
-  
+
   const handleCloseEditModal = () => {
     setEditModalOpen(false);
   };
@@ -70,17 +69,15 @@ const Profile = () => {
         console.error('JWT token not found in local storage');
         return;
       }
-      window.location.reload();
       const response = await fetch(`http://localhost:8080/api/v1/profile/${username}`, {
         method: 'PUT',
         headers: {
           Authorization: `Bearer ${token}`,
           'Content-Type': 'application/json',
         },
-        
         body: JSON.stringify(updatedProfile),
       });
-      
+
       if (response.ok) {
         enqueueSnackbar('Profile updated successfully', { variant: 'success' });
         const updatedProfileData = await response.json();
@@ -94,9 +91,7 @@ const Profile = () => {
       console.error('Error updating profile:', error);
     }
   };
-  
-  
-  
+
 
   const handleDeleteGoal = async (goalId: number) => {
     try {
@@ -275,7 +270,7 @@ const Profile = () => {
       <div className="profile-container">
       <div className="profile-info">
         <div className=''>
-  
+
   <img
             src={profileImg}
             alt="Profile Picture"
@@ -283,7 +278,6 @@ const Profile = () => {
             borderRadius: '50%',
             marginTop: '1.5rem' }}
           />
-          
   <ul>
   <h1>Name: {username}</h1>
     <li>Age: {profileData.age}</li>
@@ -301,7 +295,7 @@ const Profile = () => {
         <div className="goals-column">
           <h2>Goals:</h2>
           <ul>
-            {profileData.goals.map((goal: any) => (
+            {profileData?.goals?.map((goal: any) => (
               <Goal key={goal.goalId} goal={goal} handleDelete={() => handleDeleteGoal(goal.goalId)} />
             ))}
           </ul>
@@ -316,17 +310,17 @@ const Profile = () => {
               <div className='container'>
               <ListItem key={condition.conditionId} >
                 <ListItemText primary={<Typography variant='h6'> Condition: {condition.conditionDescription} </Typography>} />
-                
+
               </ListItem>
 
               <ListItem className='line-top'>
           <Stack direction="row" spacing={2} alignItems="center">
             <Button  variant="contained" color="primary" onClick={() => handleDeleteCondition(condition.conditionId)}>
                   Update
-            </Button> 
+            </Button>
             <Button variant="contained" color="error" onClick={() => handleDeleteCondition(condition.conditionId)}>
                   Delete
-            </Button> 
+            </Button>
           </Stack>
         </ListItem>
               </div>

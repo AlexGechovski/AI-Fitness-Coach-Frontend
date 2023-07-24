@@ -40,7 +40,6 @@ const WeeklyWorkoutPage: React.FC = () => {
 
         const tokenUsername = getDecodedAccessToken(token).sub;
         setUsername(tokenUsername);
-        console.log('tokenUsername', tokenUsername);
         const url = `http://localhost:8080/api/v1/${tokenUsername}/weekly-workout`;
 
         const response = await fetch(url, {
@@ -48,7 +47,7 @@ const WeeklyWorkoutPage: React.FC = () => {
             Authorization: `Bearer ${token}`,
           },
         });
-        
+
         if (response.ok) {
           const data = await response.json();
           setWorkoutData(data);
