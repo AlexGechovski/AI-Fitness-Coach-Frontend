@@ -11,21 +11,10 @@ import SignInSide from './components/SignInSide.tsx';
 import SignUp from './components/SignUp.tsx';
 import Profile from './components/Profile.tsx';
 import WeeklyWorkoutPage from './components/WeeklyWorkoutPage.tsx';
-import ChatPage from './components/ChatPage.tsx';
+import ChatBotPage from './components/ChatBot.tsx';
 
 const Root = () => {
   const [token, setToken] = React.useState<string | null>(localStorage.getItem('token'));
-  const [messages, setMessages] = React.useState<Message[]>([]);
-
-  interface Message {
-    id: number;
-    text: string;
-    isUser: boolean;
-  }
-
-  const addMessage = (message: Message): void => {
-    setMessages((prevMessages) => [...prevMessages, message]);
-  };
 
 
   const handleTokenUpdate = (newToken: string | null) => {
@@ -48,7 +37,7 @@ const Root = () => {
         { path: '/register', element: <SignUp onTokenUpdate={handleTokenUpdate} /> },
         { path: '/profile', element: <Profile /> },
         { path: '/workout', element: <WeeklyWorkoutPage /> },
-        { path: '/chat', element: <ChatPage messages={messages} setMessages={setMessages} onAddMessage={addMessage} /> }
+        { path: '/chat', element: <ChatBotPage /> }
       ],
     },
   ]);
