@@ -282,6 +282,7 @@ const ChatBotPage: React.FC = () => {
                 color: '#fff',
                 maxWidth: '70%',
                 alignSelf: message.role === 'user' ? 'flex-end' : 'flex-start',
+                whiteSpace: 'pre-line',  
               }}
             >
               {message.content}

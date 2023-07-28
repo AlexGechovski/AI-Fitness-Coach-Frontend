@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { Grid, Paper, Typography, Button, CircularProgress } from '@mui/material';
+import { Paper, Typography, Button, CircularProgress } from '@mui/material';
 import jwt from 'jwt-decode';
 
 interface Exercise {
@@ -18,7 +18,7 @@ interface WorkoutDay {
 
 const WeeklyWorkoutPage: React.FC = () => {
   const [workoutData, setWorkoutData] = useState<WorkoutDay[]>([]);
-  const [username, setUsername] = useState<string>('');
+
   const [isLoading, setIsLoading] = useState<boolean>(false);
 
   function getDecodedAccessToken(token: string): any {
@@ -28,6 +28,34 @@ const WeeklyWorkoutPage: React.FC = () => {
       return null;
     }
   }
+
+  const handleDeleteWorkout = async () => {
+    try {
+      const token = localStorage.getItem('token');
+      if (!token) {
+        console.error('JWT token not found in local storage');
+        return;
+      }
+  
+      const tokenUsername = getDecodedAccessToken(token).sub;
+  
+      const response = await fetch(`http://localhost:8080/api/v1/${tokenUsername}/weekly-workout`, {
+        method: 'DELETE',
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      });
+  
+      if (response.ok) {
+        setWorkoutData([]);
+      } else {
+        console.error('Error deleting workout:', response.statusText);
+      }
+    } catch (error) {
+      console.error('Error deleting workout:', error);
+    }
+  };
+  
 
   useEffect(() => {
     const fetchWorkoutData = async () => {
@@ -39,7 +67,7 @@ const WeeklyWorkoutPage: React.FC = () => {
         }
 
         const tokenUsername = getDecodedAccessToken(token).sub;
-        setUsername(tokenUsername);
+      
         const url = `http://localhost:8080/api/v1/${tokenUsername}/weekly-workout`;
 
         const response = await fetch(url, {
@@ -72,9 +100,7 @@ const WeeklyWorkoutPage: React.FC = () => {
 
 
       const tokenUsername = getDecodedAccessToken(token).sub;
-      setUsername(tokenUsername);
-      console.log('tokenUsername', tokenUsername);
-
+     
       setIsLoading(true);
 
       const response = await fetch(`http://localhost:8080/api/v1/${tokenUsername}/weekly-workout/generate`, {
@@ -98,47 +124,46 @@ const WeeklyWorkoutPage: React.FC = () => {
   };
 
   return (
-    <div style={{ padding: '2rem' }}>
+    <div>
+    <div style={{ padding: '2rem', display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
       <Typography variant="h4" gutterBottom>
         Weekly Workout Schedule
       </Typography>
       {workoutData.length > 0 ? (
-        <Grid container spacing={2}>
+        <div style={{ display: 'flex', flexWrap: 'wrap', gap: '1rem' }}>
           {workoutData.map((day) => (
-            <Grid item xs={12} sm={6} md={4} key={day.dayId}>
-              <Paper elevation={3} style={{ padding: '1rem' }}>
-                <Typography variant="h6">{day.day}</Typography>
-                <Typography variant="body1" color="textSecondary" gutterBottom>
-                  {day.workout || 'Rest Day'}
+            <Paper elevation={3} style={{ padding: '1rem', minWidth: 200 }} key={day.dayId}>
+              <Typography variant="h6">{day.day}</Typography>
+              <Typography variant="body1" color="textSecondary" gutterBottom>
+                {day.workout || 'Rest Day'}
+              </Typography>
+              {day.exercises.length > 0 ? (
+                <ul style={{ paddingLeft: '1rem' }}>
+                  {day.exercises.map((exercise, index) => (
+                    <li key={index}>
+                      <Typography variant="subtitle1">{exercise.name}</Typography>
+                      {exercise.sets && <Typography variant="body2">Sets: {exercise.sets}</Typography>}
+                      {exercise.reps && <Typography variant="body2">Reps: {exercise.reps}</Typography>}
+                      {exercise.duration && (
+                        <Typography variant="body2">Duration: {exercise.duration}</Typography>
+                      )}
+                    </li>
+                  ))}
+                </ul>
+              ) : (
+                <Typography variant="body2" color="textSecondary">
+                  No exercises for this day.
                 </Typography>
-                {day.exercises.length > 0 ? (
-                  <ul style={{ paddingLeft: '1rem' }}>
-                    {day.exercises.map((exercise, index) => (
-                      <li key={index}>
-                        <Typography variant="subtitle1">{exercise.name}</Typography>
-                        {exercise.sets && <Typography variant="body2">Sets: {exercise.sets}</Typography>}
-                        {exercise.reps && <Typography variant="body2">Reps: {exercise.reps}</Typography>}
-                        {exercise.duration && (
-                          <Typography variant="body2">Duration: {exercise.duration}</Typography>
-                        )}
-                      </li>
-                    ))}
-                  </ul>
-                ) : (
-                  <Typography variant="body2" color="textSecondary">
-                    No exercises for this day.
-                  </Typography>
-                )}
-              </Paper>
-            </Grid>
+              )}
+            </Paper>
           ))}
-        </Grid>
+        </div>
       ) : (
         <div style={{ textAlign: 'center' }}>
           {isLoading ? (
             <div>
-            <Typography variant="h6">Generating the best workout based on your stats!</Typography>
-            <CircularProgress />
+              <Typography variant="h6">Generating the best workout based on your stats!</Typography>
+              <CircularProgress />
             </div>
           ) : (
             <>
@@ -152,9 +177,19 @@ const WeeklyWorkoutPage: React.FC = () => {
           )}
         </div>
       )}
-      
     </div>
+      {workoutData.length > 0 && (
+      <div style={{ display: 'flex', justifyContent: 'center', marginTop: '2rem' }}>
+        <Button variant="contained" color="error" onClick={handleDeleteWorkout}>
+          Delete Workout
+        </Button>
+      </div>
+    )}
+      </div>
   );
-};
+  
+    
 
+  
+};
 export default WeeklyWorkoutPage;

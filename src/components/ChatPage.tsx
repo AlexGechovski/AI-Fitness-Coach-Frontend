@@ -50,7 +50,6 @@ const ChatPage: React.FC<ChatPageProps> = ({ messages, setMessages, onAddMessage
           },
         });
         const data = await response.json();
-        console.log(data);
         setChats(data);
       } catch (error) {
         console.error('Error fetching chats:', error);
@@ -120,10 +119,11 @@ const ChatPage: React.FC<ChatPageProps> = ({ messages, setMessages, onAddMessage
       }
 
       const data = await response.json();
-      console.log(data);
+      //console.log(data);
 
       // Get the message content from the API response
       const botMessageContent = data.choices[0]?.message?.content || 'No response from the bot';
+  
       return botMessageContent;
     } catch (error) {
       throw new Error('Failed to get response from the bot');
@@ -175,10 +175,12 @@ const ChatPage: React.FC<ChatPageProps> = ({ messages, setMessages, onAddMessage
       <Paper style={{ flex: 1, width: '100%', maxWidth: 700, padding: '1rem', marginBottom: '1rem', overflow: 'auto' }}>
         {/* If a chat is selected, display its messages */}
         {selectedChat && (
-          <div>
-            <Typography variant="h6">Selected Chat: {selectedChat.chatId}</Typography>
-            <div style={{ display: 'flex', flexDirection: 'column', gap: '1rem' }}>
-              {selectedChat.messages.map((message) => (
+        <div>
+          <Typography variant="h6">Selected Chat: {selectedChat.chatId}</Typography>
+          <div style={{ display: 'flex', flexDirection: 'column', gap: '1rem' }}>
+            {selectedChat.messages.map((message,index) => {
+              console.log(`Message ${index} text:`, message.text);
+              return (
                 <div
                   key={message.id}
                   style={{
@@ -192,12 +194,13 @@ const ChatPage: React.FC<ChatPageProps> = ({ messages, setMessages, onAddMessage
                 >
                   {message.text}
                 </div>
-              ))}
-              <div ref={messagesEndRef} />
-              {isLoading && <div style={{ alignSelf: 'flex-start' }}>Bot is typing...</div>}
-            </div>
+              );
+            })}
+            <div ref={messagesEndRef} />
+            {isLoading && <div style={{ alignSelf: 'flex-start' }}>Bot is typing...</div>}
           </div>
-        )}
+        </div>
+      )}
 
         {/* If no chat is selected, display the chat buttons */}
         {!selectedChat && (

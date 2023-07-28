@@ -2,6 +2,9 @@ import * as React from 'react';
 import axios from 'axios';
 import { enqueueSnackbar } from 'notistack';
 
+import robotImage from '../assets/robot.jpg';
+import gymImg from '../assets/gym.jpeg';
+
 import CssBaseline from '@mui/material/CssBaseline';
 import Avatar from '@mui/material/Avatar';
 import Button from '@mui/material/Button';
@@ -68,7 +71,7 @@ const SignInSide: React.FC<SignInSideProps> = ({ onTokenUpdate }) => {
           sm={4}
           md={7}
           sx={{
-            backgroundImage: 'url(https://source.unsplash.com/random?wallpapers)',
+            backgroundImage: `url(${gymImg})`,
             backgroundRepeat: 'no-repeat',
             backgroundColor: (t) =>
               t.palette.mode === 'light' ? t.palette.grey[50] : t.palette.grey[900],
