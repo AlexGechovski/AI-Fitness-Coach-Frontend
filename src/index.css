@@ -1,5 +1,14 @@
 @import url('https://fonts.googleapis.com/css?family=Roboto:300,400,500,700&display=swap');
 
+.paper-box {
+  padding: 1rem;
+  min-width: 200px;
+}
+
+.paper-box:hover {
+  opacity: 0.5;
+  cursor: pointer;
+}
 
 :root {
   font-family: 'Roboto', sans-serif;

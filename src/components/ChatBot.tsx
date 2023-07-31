@@ -52,7 +52,7 @@ const ChatBotPage: React.FC = () => {
           },
         });
         const data = await response.json();
-        
+
         setChats(data);
       } catch (error) {
         console.error('Error fetching chats:', error);
@@ -68,9 +68,6 @@ const ChatBotPage: React.FC = () => {
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setInputText(e.target.value);
   };
-
-  
-
 
   const handleSendMessage = async () => {
     if (inputText.trim() === '' || isLoading || !selectedChat) return;
@@ -120,7 +117,6 @@ const ChatBotPage: React.FC = () => {
       if (selectedChatIndex !== -1) {
         updatedChats[selectedChatIndex].messages.push(botResponse);
       }
-  
       setChats(updatedChats);
 
       console.log(chats);
@@ -137,8 +133,6 @@ const ChatBotPage: React.FC = () => {
     messagesEndRef.current.scrollIntoView({ behavior: 'instant' });
   }
   }, [chats]);
-
-  
   useEffect(() => {
     if (messagesEndRef.current) {
       messagesEndRef.current.scrollIntoView({ behavior: 'instant' });
@@ -151,7 +145,7 @@ const ChatBotPage: React.FC = () => {
   const handleNewChatButtonClick = async () => {
 
     setLoading(true);
-    
+
     const token = localStorage.getItem('token');
     if (!token) {
       console.error('JWT token not found in local storage');
@@ -165,7 +159,6 @@ const ChatBotPage: React.FC = () => {
           'Content-Type': 'application/json',
           Authorization: `Bearer ${token}`,
         },
-       
       });
 
       if (!response.ok) {
@@ -230,22 +223,21 @@ const ChatBotPage: React.FC = () => {
   return (
     <div style={{display: 'flex', flexDirection: 'row',justifyContent: 'center'}}>
         <div style={{ display: 'flex', flexDirection: 'column', gap: '1rem',marginRight: '2rem',marginTop: '3rem' }}>
-        <Button 
+        <Button
         onClick={() => handleNewChatButtonClick()}
-        style={{ backgroundColor: 'transparent', 
-                color: '#000', 
+        style={{ backgroundColor: 'transparent',
+                color: '#000',
             }}
         >
             New Chat
         </Button>
         {chats.map((chat) => (
             <div key={chat.chatId} >
-                <Button 
-                
+                <Button
                 variant={selectedChat === chat ? 'contained' : 'text'}
                 onClick={() => handleChatButtonClick(chat)}
-                style={{ backgroundColor: selectedChat === chat ? '#3f51b5' : 'transparent', 
-                        color: selectedChat === chat ? '#fff' : '#000', 
+                style={{ backgroundColor: selectedChat === chat ? '#3f51b5' : 'transparent',
+                        color: selectedChat === chat ? '#fff' : '#000',
                     }}
                 >
                     Chat {chat.chatId}
@@ -259,44 +251,43 @@ const ChatBotPage: React.FC = () => {
         </div>
         <div style={{ height: '90vh',width: '90vh', display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center' }}>
         <Typography variant="h4" gutterBottom>
-            Chat Bot Page 
+            Chat Bot Page
         </Typography>
         <Paper style={{ flex: 1, width: '100%', maxWidth: 700, padding: '1rem', marginBottom: '1rem', overflow: 'auto' }}>
             {/* If a chat is selected, display its messages */}
             {selectedChat && (
-  <div>
-    <Typography variant="h6">Selected Chat: {selectedChat.chatId}</Typography>
-    <div style={{ display: 'flex', flexDirection: 'column', gap: '1rem' }}>
-      {selectedChat.messages
-        .filter((message) => message.role !== 'system' && message.role !== 'function')
-        .map((message, index) => (
-          // Skip rendering the third message (index 2)
-          // Note: Array index starts from 0
-          index !== 1 && (
-            <div
-              key={index}
-              style={{
-                padding: '0.5rem',
-                borderRadius: '0.5rem',
-                backgroundColor: message.role === 'user' ? '#1976d2' : '#3f51b5',
-                color: '#fff',
-                maxWidth: '70%',
-                alignSelf: message.role === 'user' ? 'flex-end' : 'flex-start',
-                whiteSpace: 'pre-line',  
-              }}
-            >
-              {message.content}
-            </div>
-          )
-        ))}
-      <div ref={messagesEndRef} />
-      {isLoading && <div style={{ alignSelf: 'flex-start' }}>Bot is typing...</div>}
-    </div>
-  </div>
-)}
+        <div>
+          <Typography variant="h6">Selected Chat: {selectedChat.chatId}</Typography>
+          <div style={{ display: 'flex', flexDirection: 'column', gap: '1rem' }}>
+            {selectedChat.messages
+              .filter((message) => message.role !== 'system' && message.role !== 'function')
+              .map((message, index) => (
+                // Skip rendering the third message (index 2)
+                // Note: Array index starts from 0
+                index !== 1 && (
+                  <div
+                    key={index}
+                    style={{
+                      padding: '0.5rem',
+                      borderRadius: '0.5rem',
+                      backgroundColor: message.role === 'user' ? '#1976d2' : '#3f51b5',
+                      color: '#fff',
+                      maxWidth: '70%',
+                      alignSelf: message.role === 'user' ? 'flex-end' : 'flex-start',
+                      whiteSpace: 'pre-line',
+                    }}
+                  >
+                    {message.content}
+                  </div>
+                )
+              ))}
+            <div ref={messagesEndRef} />
+            {isLoading && <div style={{ alignSelf: 'flex-start' }}>Bot is typing...</div>}
+          </div>
+        </div>
+      )}
 
             {/* If no chat is selected, display the chat buttons */}
-            
         </Paper>
         <div style={{ width: '100%', maxWidth: 700 }}>
             <form style={{ display: 'flex', gap: '1rem' }} onSubmit={(e) => e.preventDefault()}>
@@ -319,11 +310,10 @@ const ChatBotPage: React.FC = () => {
             </Button>
             </form>
         </div>
-        
+
         </div>
-        
-    </div> 
-    
+
+    </div>
 
   );
 };

@@ -123,7 +123,7 @@ const ChatPage: React.FC<ChatPageProps> = ({ messages, setMessages, onAddMessage
 
       // Get the message content from the API response
       const botMessageContent = data.choices[0]?.message?.content || 'No response from the bot';
-  
+
       return botMessageContent;
     } catch (error) {
       throw new Error('Failed to get response from the bot');
@@ -205,7 +205,7 @@ const ChatPage: React.FC<ChatPageProps> = ({ messages, setMessages, onAddMessage
         {/* If no chat is selected, display the chat buttons */}
         {!selectedChat && (
           <div style={{ display: 'flex', flexDirection: 'column', gap: '1rem' }}>
-            {chats.map((chat) => (
+            {chats?.map((chat) => (
               <Button key={chat.chatId} onClick={() => handleChatButtonClick(chat)}>
                 Chat {chat.chatId}
               </Button>

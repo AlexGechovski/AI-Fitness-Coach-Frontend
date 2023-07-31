@@ -24,7 +24,7 @@ const CreateConditionModal: React.FC<CreateConditionModalProps> = ({ onClose, on
 
   return (
 <Dialog open onClose={onClose}>
-      <DialogTitle>Create Goal</DialogTitle>
+      <DialogTitle>Create Health Condition</DialogTitle>
       <DialogContent>
         <TextField
           label="Condition Description"
